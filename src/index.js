@@ -1,9 +1,20 @@
 import  React from "react"
 import ReactDom from "react-dom"
-import App from "./app"
+import {Provider} from "react-redux"
+import App from "./containers/app"
+import {combineReducers, createStore} from 'redux'
+import {reducer as todos} from './store/todo'
+import {reducer as filter} from './store/filter'
 
+
+const todoApp = combineReducers({
+  todos,
+  filter
+})
 
 ReactDom.render(
-  <App/>,
+  <Provider store={createStore(todoApp)}>
+    <App/>
+  </Provider>,
   document.getElementById("root")
 )

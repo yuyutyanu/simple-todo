@@ -1,0 +1,1 @@
+export const SET_VISIBLE_FILTER = "SET_VISIBLE_FILTER"
