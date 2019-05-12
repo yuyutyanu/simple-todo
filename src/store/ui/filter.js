@@ -1,4 +1,4 @@
-import { SET_VISIBLE_FILTER } from './actionTypes/filter'
+import { SET_VISIBLE_FILTER } from '../actionTypes/filter'
 
 export const filterTypes = {
   SHOW_ALL: "SHOW_ALL",

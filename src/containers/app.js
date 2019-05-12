@@ -1,8 +1,8 @@
-import {App} from "../app"
-import { filterTypes } from '../store/filter'
+import {App} from "../pages/App"
+import { filterTypes } from '../store/ui/filter'
 import { connect } from 'react-redux'
-import { actions as todoActions } from '../store/todo'
-import { actions as filterActions } from '../store/filter'
+import { actions as todoActions } from '../store/domain/todo'
+import { actions as filterActions } from '../store/ui/filter'
 
 const mapStateToProps = ({todos, filter}) => {
   return {

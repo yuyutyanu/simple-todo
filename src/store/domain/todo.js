@@ -1,4 +1,4 @@
-import { ADD_TODO, COMPLETE_TODO, REMOVE_TODO, UPDATE_TODO } from './actionTypes/todo'
+import { ADD_TODO, COMPLETE_TODO, REMOVE_TODO, UPDATE_TODO } from '../actionTypes/todo'
 
 export const actions = {
   addTodo (text) {

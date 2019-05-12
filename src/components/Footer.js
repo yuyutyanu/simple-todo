@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {filterTypes} from '../store/filter'
+import {filterTypes} from '../store/ui/filter'
 
 export default class Footer extends Component{
   renderFilter(filter, name){
