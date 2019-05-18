@@ -1,0 +1,12 @@
+li{
+  list-style: none;
+}
+.todo-list{
+  height:70vh;
+  overflow: scroll;
+}
+.todo-list li{
+  width:95%;
+  margin: 7px auto;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1)
+}

@@ -1,4 +1,4 @@
-import { ADD_TODO, COMPLETE_TODO, REMOVE_TODO, UPDATE_TODO } from '../actionTypes/todo'
+import { ADD_TODO,  REMOVE_TODO, TOGGLE_COMPLETED, EDIT_TODO } from '../actionTypes/todo'
 
 export const actions = {
   addTodo (text) {
@@ -15,13 +15,13 @@ export const actions = {
   },
   completeTodo (index) {
     return {
-      type: COMPLETE_TODO,
+      type: TOGGLE_COMPLETED,
       index
     }
   },
-  updateTodo (index, text) {
+  editTodo (index, text) {
     return {
-      type: UPDATE_TODO,
+      type: EDIT_TODO,
       index,
       text
     }
@@ -39,10 +39,16 @@ export const reducer = (state = [], action) => {
       }else {
         return [{text: action.text, completed: false}]
       }
-    case COMPLETE_TODO:
+    case EDIT_TODO :
       return [
         ...state.slice(0, action.index),
-        Object.assign({}, state[action.index], {completed: true}),
+        Object.assign({}, state[action.index], {text: action.text}),
+        ...state.slice(action.index + 1)
+      ]
+    case TOGGLE_COMPLETED:
+      return [
+        ...state.slice(0, action.index),
+        Object.assign({}, state[action.index], {completed: !state[action.index].completed}),
         ...state.slice(action.index + 1)
       ]
     default:

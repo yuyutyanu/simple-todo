@@ -1,0 +1,9 @@
+.add-btn{
+  margin-left:10px !important;
+}
+.app-form{
+  position: absolute;
+  bottom:0px;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
