@@ -20,20 +20,22 @@ class App extends Component {
   }
 
   render () {
-    const {addTodo, editTodo, completeTodo, setVisibleFilter, filter, todos} = this.props
+    const {addTodo, editTodo, removeTodo, completeTodo, setVisibleFilter, filter, todos} = this.props
     return (
       <div>
-        <div>
           <AppFilter
             currentFilter={filter}
             onFilterChange={filter => {setVisibleFilter(filter)}}
             tabText={[{text: "ALL"}, {text: "COMPLETE"}, {text: "ACTIVE"}]}
             filterTypes={[filterTypes.SHOW_ALL, filterTypes.SHOW_COMPLETE, filterTypes.SHOW_ACTIVE]}
           />
+          { !this.state.isEdit ?
           <div className="container">
             <AppList list={todos}
                      toggleCompleted={index => completeTodo(index)}
-                     listItemDelete={index => console.log(index)}
+                     listItemDelete={id => {
+                       removeTodo(id)
+                     }}
                      listItemEdit={index => {
                        this.setState({focusIndex: index})
                        this.setState({isEdit: true})
@@ -44,6 +46,8 @@ class App extends Component {
                      className="todo-list"
             />
           </div>
+            : null}
+          {filter !== filterTypes.SHOW_COMPLETE ?
           <div className="container app-form">
             {!this.state.isEdit ?
               < AppForm
@@ -51,18 +55,23 @@ class App extends Component {
                 icon="add_icon"
                 className="submit-btn"
                 labelText="add todo ..."
+                value=""
               /> :
               <AppForm
-                onHandleClick={text => editTodo(this.state.focusIndex, text)}
+                onHandleClick={text => {
+                  editTodo(this.state.focusIndex, text)
+                  this.setState({isEdit: false})
+                }}
                 icon="edit_icon"
                 className="submit-btn"
                 labelText="edit todo ..."
                 ref={this.edit}
+                value={(todos[this.state.focusIndex] && todos[this.state.focusIndex].text) ||  ""}
               />
             }
-          </div>
+          </div>: null
+          }
         </div>
-      </div>
     )
   }
 }
@@ -85,16 +94,19 @@ const mapStateToProps = ({todos, filter}) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addTodo (text) {
-      return dispatch(todoActions.addTodo(text))
+      dispatch(todoActions.addTodo(text))
     },
     editTodo (index, text) {
       dispatch(todoActions.editTodo(index, text))
     },
+    removeTodo(id){
+      dispatch(todoActions.removeTodo(id))
+    },
     completeTodo (index) {
-      return dispatch(todoActions.completeTodo(index))
+      dispatch(todoActions.completeTodo(index))
     },
     setVisibleFilter (filterName) {
-      return dispatch(filterActions.setVisibleFilter(filterName))
+      dispatch(filterActions.setVisibleFilter(filterName))
     }
   }
 }

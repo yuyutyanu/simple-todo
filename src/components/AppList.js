@@ -5,14 +5,14 @@ import PropTypes from 'prop-types'
 
 class AppList extends Component {
   render () {
-     const {className, listItemDelete, listItemEdit, toggleCompleted} = this.props
+     const {list, className, listItemDelete, listItemEdit, toggleCompleted} = this.props
     return (
       <List className={className}>
-        {this.props.list.map((data, index) =>
+        {list.map((data, index) =>
           <AppListItem
-            listItemDelete={() => {listItemDelete(index)}}
-            listItemEdit={() => {listItemEdit(index)}}
-            toggleCompleted={() => {toggleCompleted(index)}}
+            listItemDelete={() => {listItemDelete(data.id)}}
+            listItemEdit={() => {listItemEdit(data.id)}}
+            toggleCompleted={() => {toggleCompleted(data.id)}}
             {...data}
             key={index}
           />

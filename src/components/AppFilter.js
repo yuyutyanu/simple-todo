@@ -29,8 +29,8 @@ export default class AppFilter extends Component{
         textColor="primary"
         onChange={this.onFilterChange}
       >
-        {this.props.tabText.map(tab =>
-          <Tab label={tab.text}/>
+        {this.props.tabText.map((tab,index) =>
+          <Tab key={index} label={tab.text}/>
         )}
       </Tabs>
     </Paper>

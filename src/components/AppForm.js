@@ -8,13 +8,14 @@ import '../static/form.css'
 export default class AppForm extends Component {
   constructor (props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {value: ""};
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.input = React.createRef();
   }
   focus () {
     this.input.current.focus()
+    this.setState({value: this.props.value})
   }
 
   render () {
@@ -36,11 +37,12 @@ export default class AppForm extends Component {
   handleClick (e) {
     const text = this.state.value.trim()
     this.props.onHandleClick(text)
-    this.state.value = ""
+    this.setState({value:""})
   }
 }
 
 AppForm.propTypes = {
+  value: PropTypes.string,
   onHandleClick: PropTypes.func.isRequired,
   labelText: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,

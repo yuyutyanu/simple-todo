@@ -7,49 +7,60 @@ export const actions = {
       text
     }
   },
-  removeTodo (index) {
+  removeTodo (id) {
     return {
       type: REMOVE_TODO,
-      index
+      id
     }
   },
-  completeTodo (index) {
+  completeTodo (id) {
     return {
       type: TOGGLE_COMPLETED,
-      index
+      id
     }
   },
-  editTodo (index, text) {
+  editTodo (id, text) {
     return {
       type: EDIT_TODO,
-      index,
+      id,
       text
     }
   }
 }
 
+let i = 0;
+let target;
 export const reducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO :
       if (state) {
         return [
           ...state,
-          {text: action.text, completed: false}
+          {id: i++, text: action.text, completed: false}
         ]
       }else {
-        return [{text: action.text, completed: false}]
+        return [{id: i++, text: action.text, completed: false}]
       }
     case EDIT_TODO :
+      target = state.findIndex(todo => todo.id === action.id)
       return [
-        ...state.slice(0, action.index),
-        Object.assign({}, state[action.index], {text: action.text}),
-        ...state.slice(action.index + 1)
+        ...state.slice(0, target),
+        Object.assign({}, state[target], {text: action.text}),
+        ...state.slice(target + 1)
+      ]
+    case REMOVE_TODO:
+
+      return [
+        ...state.filter((todo) => {
+          return todo.id !== action.id
+        })
       ]
     case TOGGLE_COMPLETED:
+      target = state.findIndex(todo => todo.id === action.id)
       return [
-        ...state.slice(0, action.index),
-        Object.assign({}, state[action.index], {completed: !state[action.index].completed}),
-        ...state.slice(action.index + 1)
+        ...state.slice(0, target),
+        Object.assign({}, state[target], {completed: !state[target].completed}),
+        ...state.slice(target + 1)
       ]
     default:
       return state
