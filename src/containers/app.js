@@ -49,13 +49,13 @@ class App extends Component {
               < AppForm
                 onHandleClick={text => addTodo(text)}
                 icon="add_icon"
-                className="add-btn"
+                className="submit-btn"
                 labelText="add todo ..."
               /> :
               <AppForm
                 onHandleClick={text => editTodo(this.state.focusIndex, text)}
                 icon="edit_icon"
-                className="add-btn"
+                className="submit-btn"
                 labelText="edit todo ..."
                 ref={this.edit}
               />
