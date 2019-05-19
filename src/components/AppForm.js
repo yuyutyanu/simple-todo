@@ -17,17 +17,10 @@ export default class AppForm extends Component {
     this.input.current.focus()
     this.setState({value: this.props.value})
   }
-
-  render () {
-    const {labelText, className, icon} = this.props
-    return (
-      <div>
-        <TextField label={labelText} variant="outlined" margin="none" color="secondary" value={this.state.value} onChange={this.handleChange} inputRef={this.input}/>
-        <Fab className={className} color="secondary" aria-label="Add" onClick={e => this.handleClick(e)}>
-          <Icon>{icon}</Icon>
-        </Fab>
-      </div>
-    )
+  handleKeyDown(e){
+    if(e.keyCode === 13){
+      this.handleClick()
+    }
   }
 
   handleChange (event) {
@@ -38,6 +31,18 @@ export default class AppForm extends Component {
     const text = this.state.value.trim()
     this.props.onHandleClick(text)
     this.setState({value:""})
+  }
+
+  render () {
+    const {labelText, className, icon} = this.props
+    return (
+      <div>
+        <TextField label={labelText} variant="outlined" margin="none" color="secondary" value={this.state.value} onKeyDown={e => this.handleKeyDown(e)}  onChange={this.handleChange} inputRef={this.input}/>
+        <Fab className={className} color="secondary" aria-label="Add" onClick={e => this.handleClick(e)}>
+          <Icon>{icon}</Icon>
+        </Fab>
+      </div>
+    )
   }
 }
 
