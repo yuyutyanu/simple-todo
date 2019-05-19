@@ -14,7 +14,7 @@ class App extends Component {
     super(props);
     this.edit = React.createRef()
     this.state = {
-      focusIndex: null,
+      focusId: null,
       isEdit: false
     }
   }
@@ -38,8 +38,8 @@ class App extends Component {
                    listItemDelete={id => {
                      removeTodo(id)
                    }}
-                   listItemEdit={index => {
-                     this.setState({focusIndex: index})
+                   listItemEdit={id => {
+                     this.setState({focusId: id})
                      this.setState({isEdit: true})
                      process.nextTick(() => {
                        this.edit.current.focus()
@@ -52,7 +52,7 @@ class App extends Component {
           <div className="container app-form">
             {!this.state.isEdit ?
               < AppForm
-                onHandleClick={text => addTodo(text)}
+                onHandleClick={text => text ? addTodo(text) : null}
                 icon="add_icon"
                 className="submit-btn"
                 labelText="add todo ..."
@@ -60,14 +60,17 @@ class App extends Component {
               /> :
               <AppForm
                 onHandleClick={text => {
-                  editTodo(this.state.focusIndex, text)
+                  editTodo(this.state.focusId, text)
                   this.setState({isEdit: false})
                 }}
                 icon="edit_icon"
                 className="submit-btn"
                 labelText="edit todo ..."
                 ref={this.edit}
-                value={(todos[this.state.focusIndex] && todos[this.state.focusIndex].text) || ""}
+                value={(
+                  todos.some(todo => todo.id === this.state.focusId)
+                  && todos[todos.findIndex(todo => todo.id === this.state.focusId)].text
+                ) || ""}
               />
             }
           </div> : null
