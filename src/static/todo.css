@@ -1,8 +1,12 @@
+.todo-list-wrap{
+  position: relative;
+  height:60vh;
+}
+
 li{
   list-style: none;
 }
 .todo-list{
-  height:70vh;
   overflow: scroll;
 }
 .todo-list li{

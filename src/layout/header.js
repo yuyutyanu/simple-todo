@@ -9,9 +9,9 @@ import "../static/header.css"
 const Header = () => (
   <AppBar position={"static"}>
     <Toolbar>
-      <IconButton>
-        <Link to="/settings" className="to-setting">
-          <Icon>settings</Icon>
+      <IconButton className="to-setting">
+        <Link to="/settings">
+          <Icon fontSize="default">settings_applications</Icon>
         </Link>
       </IconButton>
     </Toolbar>

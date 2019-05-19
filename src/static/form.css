@@ -6,4 +6,15 @@
   bottom:0px;
   left:50%;
   transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.is-editing{
+  background: rgba(255,255,255,0.3);
+  position: absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  z-index: 10;
 }

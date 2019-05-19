@@ -22,32 +22,33 @@ class App extends Component {
   render () {
     const {addTodo, editTodo, removeTodo, completeTodo, setVisibleFilter, filter, todos} = this.props
     return (
-      <div>
-          <AppFilter
-            currentFilter={filter}
-            onFilterChange={filter => {setVisibleFilter(filter)}}
-            tabText={[{text: "ALL"}, {text: "COMPLETE"}, {text: "ACTIVE"}]}
-            filterTypes={[filterTypes.SHOW_ALL, filterTypes.SHOW_COMPLETE, filterTypes.SHOW_ACTIVE]}
+      <div className="app">
+        {this.state.isEdit ?
+          <div className="is-editing"/> : null
+        }
+        <AppFilter
+          currentFilter={filter}
+          onFilterChange={filter => {setVisibleFilter(filter)}}
+          tabText={[{text: "ALL"}, {text: "COMPLETE"}, {text: "ACTIVE"}]}
+          filterTypes={[filterTypes.SHOW_ALL, filterTypes.SHOW_COMPLETE, filterTypes.SHOW_ACTIVE]}
+        />
+        <div className="container todo-list-wrap">
+          <AppList list={todos}
+                   toggleCompleted={index => completeTodo(index)}
+                   listItemDelete={id => {
+                     removeTodo(id)
+                   }}
+                   listItemEdit={index => {
+                     this.setState({focusIndex: index})
+                     this.setState({isEdit: true})
+                     process.nextTick(() => {
+                       this.edit.current.focus()
+                     })
+                   }}
+                   className="todo-list"
           />
-          { !this.state.isEdit ?
-          <div className="container">
-            <AppList list={todos}
-                     toggleCompleted={index => completeTodo(index)}
-                     listItemDelete={id => {
-                       removeTodo(id)
-                     }}
-                     listItemEdit={index => {
-                       this.setState({focusIndex: index})
-                       this.setState({isEdit: true})
-                       process.nextTick(() => {
-                         this.edit.current.focus()
-                       })
-                     }}
-                     className="todo-list"
-            />
-          </div>
-            : null}
-          {filter !== filterTypes.SHOW_COMPLETE ?
+        </div>
+        {filter !== filterTypes.SHOW_COMPLETE ?
           <div className="container app-form">
             {!this.state.isEdit ?
               < AppForm
@@ -66,12 +67,12 @@ class App extends Component {
                 className="submit-btn"
                 labelText="edit todo ..."
                 ref={this.edit}
-                value={(todos[this.state.focusIndex] && todos[this.state.focusIndex].text) ||  ""}
+                value={(todos[this.state.focusIndex] && todos[this.state.focusIndex].text) || ""}
               />
             }
-          </div>: null
-          }
-        </div>
+          </div> : null
+        }
+      </div>
     )
   }
 }
@@ -99,7 +100,7 @@ const mapDispatchToProps = (dispatch) => {
     editTodo (index, text) {
       dispatch(todoActions.editTodo(index, text))
     },
-    removeTodo(id){
+    removeTodo (id) {
       dispatch(todoActions.removeTodo(id))
     },
     completeTodo (index) {
