@@ -8,13 +8,12 @@ class AppListItem extends Component {
   render () {
     const {completed, editing, text, listItemDelete, listItemEdit, toggleCompleted} = this.props
     return (
-      <ListItem className={editing ? "is-editing-list-item": ""}>
-        {completed ? <Icon color={'secondary'} onClick={listItemDelete}>delete</Icon> :
-          <Icon color={'primary'} onClick={listItemEdit}>edit</Icon>}
-        <ListItemText
-          style={{textDecoration: completed ? 'line-through' : 'none'}}
-          primary={text}
-        />
+      <ListItem className={editing ? "is-editing-list-item" : ""}>
+        {completed ?
+          <Icon color={'secondary'} onClick={listItemDelete}>delete</Icon> :
+          <Icon color={'primary'} onClick={listItemEdit}>edit</Icon>
+        }
+        <ListItemText style={{textDecoration: completed ? 'line-through' : 'none'}} primary={text}/>
         <div onClick={toggleCompleted}>
           {completed ?
             <Icon color={'primary'}>done</Icon> :
@@ -26,7 +25,8 @@ class AppListItem extends Component {
 }
 
 AppListItem.propTypes = {
-  toggleCompleted: PropTypes.func,
+  editing: PropTypes.bool.isRequired,
+  toggleCompleted: PropTypes.func.isRequired,
   listItemEdit: PropTypes.func.isRequired,
   listItemDelete: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired

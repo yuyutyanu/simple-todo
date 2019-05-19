@@ -9,6 +9,7 @@ li{
 .todo-list{
   overflow: scroll;
   word-break: break-all;
+  white-space: pre-wrap;
 }
 .todo-list li{
   width:95%;

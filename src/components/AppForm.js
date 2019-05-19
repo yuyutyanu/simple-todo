@@ -17,11 +17,6 @@ export default class AppForm extends Component {
     this.input.current.focus()
     this.setState({value: this.props.value})
   }
-  handleKeyDown(e){
-    if(e.keyCode === 13){
-      this.handleClick()
-    }
-  }
 
   handleChange (event) {
     this.setState({value: event.target.value});
@@ -37,7 +32,13 @@ export default class AppForm extends Component {
     const {labelText, className, icon} = this.props
     return (
       <div>
-        <TextField label={labelText} variant="outlined" margin="none" color="secondary" value={this.state.value} onKeyDown={e => this.handleKeyDown(e)}  onChange={this.handleChange} inputRef={this.input}/>
+        <TextField
+          label={labelText}
+          variant="outlined"
+          value={this.state.value}
+          multiline
+          onChange={this.handleChange}
+          inputRef={this.input}/>
         <Fab className={className} color="secondary" aria-label="Add" onClick={e => this.handleClick(e)}>
           <Icon>{icon}</Icon>
         </Fab>
