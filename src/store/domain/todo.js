@@ -1,4 +1,4 @@
-import { ADD_TODO,  REMOVE_TODO, TOGGLE_COMPLETED, EDIT_TODO } from '../actionTypes/todo'
+import { ADD_TODO, REMOVE_TODO, TOGGLE_COMPLETED, EDIT_TODO, EDITING_TODO } from '../actionTypes/todo'
 
 export const actions = {
   addTodo (text) {
@@ -25,6 +25,12 @@ export const actions = {
       id,
       text
     }
+  },
+  editingTodo (id){
+    return {
+      type: EDITING_TODO,
+      id
+    }
   }
 }
 
@@ -36,20 +42,27 @@ export const reducer = (state = [], action) => {
       if (state) {
         return [
           ...state,
-          {id: i++, text: action.text, completed: false}
+          {id: i++, text: action.text, editing: false, completed: false}
         ]
       }else {
-        return [{id: i++, text: action.text, completed: false}]
+        return [{id: i++, text: action.text, editing: false, completed: false}]
       }
+
     case EDIT_TODO :
       target = state.findIndex(todo => todo.id === action.id)
       return [
         ...state.slice(0, target),
-        Object.assign({}, state[target], {text: action.text}),
+        Object.assign({}, state[target], {editing: false, text: action.text}),
+        ...state.slice(target + 1)
+      ]
+    case EDITING_TODO:
+      target = state.findIndex(todo => todo.id === action.id)
+      return [
+        ...state.slice(0, target),
+        Object.assign({}, state[target], {editing: true}),
         ...state.slice(target + 1)
       ]
     case REMOVE_TODO:
-
       return [
         ...state.filter((todo) => {
           return todo.id !== action.id

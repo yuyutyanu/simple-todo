@@ -6,9 +6,9 @@ import Icon from '@material-ui/core/Icon'
 
 class AppListItem extends Component {
   render () {
-    const {completed, text, listItemDelete, listItemEdit, toggleCompleted} = this.props
+    const {completed, editing, text, listItemDelete, listItemEdit, toggleCompleted} = this.props
     return (
-      <ListItem>
+      <ListItem className={editing ? "is-editing-list-item": ""}>
         {completed ? <Icon color={'secondary'} onClick={listItemDelete}>delete</Icon> :
           <Icon color={'primary'} onClick={listItemEdit}>edit</Icon>}
         <ListItemText

@@ -27,6 +27,7 @@ AppList.propsType = {
   list: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
+      editing: PropTypes.bool,
       completed: PropTypes.bool
     }).isRequired
   ).isRequired,

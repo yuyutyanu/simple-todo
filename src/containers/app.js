@@ -20,7 +20,7 @@ class App extends Component {
   }
 
   render () {
-    const {addTodo, editTodo, removeTodo, completeTodo, setVisibleFilter, filter, todos} = this.props
+    const {addTodo, editTodo, editingTodo, removeTodo, completeTodo, setVisibleFilter, filter, todos} = this.props
     return (
       <div className="app">
         {this.state.isEdit ?
@@ -44,6 +44,7 @@ class App extends Component {
                      process.nextTick(() => {
                        this.edit.current.focus()
                      })
+                     editingTodo(id)
                    }}
                    className="todo-list"
           />
@@ -102,6 +103,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     editTodo (index, text) {
       dispatch(todoActions.editTodo(index, text))
+    },
+    editingTodo(id){
+      dispatch(todoActions.editingTodo(id))
     },
     removeTodo (id) {
       dispatch(todoActions.removeTodo(id))
