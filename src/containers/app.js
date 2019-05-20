@@ -20,7 +20,7 @@ class App extends Component {
   }
 
   render () {
-    const {addTodo, editTodo, editingTodo, removeTodo, completeTodo, filter, todos} = this.props
+    const {addTodo, editTodo, editingTodo, removeTodo, completeTodo, selectId, filter, todos} = this.props
     return (
       <div className="app">
         {this.state.isEdit ?
@@ -34,7 +34,7 @@ class App extends Component {
                      removeTodo(id)
                    }}
                    listItemEdit={id => {
-                     this.setState({focusId: id})
+                     selectId(id)
                      this.setState({isEdit: true})
                      process.nextTick(() => {
                        this.edit.current.focus()
@@ -44,6 +44,7 @@ class App extends Component {
                    className="todo-list"
           />
         </div>
+
         {filter !== filterTypes.SHOW_COMPLETE ?
           <div className="container app-form">
             {!this.state.isEdit ?
@@ -56,7 +57,7 @@ class App extends Component {
               /> :
               <AppForm
                 onHandleClick={text => {
-                  editTodo(this.state.focusId, text)
+                  editTodo(todos.selected, text)
                   this.setState({isEdit: false})
                 }}
                 icon="edit_icon"
@@ -64,8 +65,8 @@ class App extends Component {
                 labelText="edit todo ..."
                 ref={this.edit}
                 value={(
-                  todos.data.some(todo => todo.id === this.state.focusId)
-                  && todos.data[todos.data.findIndex(todo => todo.id === this.state.focusId)].text
+                  todos.data.some(todo => todo.id === todos.selected)
+                  && todos.data[todos.data.findIndex(todo => todo.id === todos.selected)].text
                 ) || ""}
               />
             }
@@ -80,6 +81,7 @@ const mapStateToProps = ({todos, filter}) => {
   return {
     filter: filter,
     todos: {
+      selected: todos.selected,
       data: todos.data.filter(todo => {
         switch (filter) {
           case filterTypes.SHOW_COMPLETE:
@@ -109,6 +111,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     completeTodo (index) {
       dispatch(todoActions.completeTodo(index))
+    },
+    selectId (id) {
+      dispatch(todoActions.selectId(id))
     }
   }
 }

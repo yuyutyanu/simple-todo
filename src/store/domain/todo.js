@@ -1,4 +1,4 @@
-import { ADD_TODO, REMOVE_TODO, TOGGLE_COMPLETED, EDIT_TODO, EDITING_TODO } from '../actionTypes/todo'
+import { ADD_TODO, REMOVE_TODO, TOGGLE_COMPLETED, EDIT_TODO, EDITING_TODO, SELECT_ID} from '../actionTypes/todo'
 
 export const actions = {
   addTodo (text) {
@@ -31,6 +31,12 @@ export const actions = {
       type: EDITING_TODO,
       id
     }
+  },
+  selectId(id){
+    return {
+      type: SELECT_ID,
+      id
+    }
   }
 }
 
@@ -38,6 +44,7 @@ let i = 0;
 let target;
 
 const initState = {
+  selected: null,
   data:[]
 }
 export const reducer = (state = initState, action) => {
@@ -45,6 +52,7 @@ export const reducer = (state = initState, action) => {
     case ADD_TODO :
       if (state.data) {
         return {
+          selected: state.selected,
           data: [
             ...state.data,
             {id: i++, text: action.text, editing: false, completed: false}
@@ -57,6 +65,7 @@ export const reducer = (state = initState, action) => {
     case EDIT_TODO :
       target = state.data.findIndex(todo => todo.id === action.id)
       return {
+        selected: state.selected,
         data: [
           ...state.data.slice(0, target),
           Object.assign({}, state.data[target], {editing: false, text: action.text}),
@@ -66,6 +75,7 @@ export const reducer = (state = initState, action) => {
     case EDITING_TODO:
       target = state.data.findIndex(todo => todo.id === action.id)
       return {
+        selected:state.selected,
         data: [
           ...state.data.slice(0, target),
           Object.assign({}, state.data[target], {editing: true}),
@@ -74,6 +84,7 @@ export const reducer = (state = initState, action) => {
       }
     case REMOVE_TODO:
       return {
+        selected: state.selected,
         data: [
           ...state.data.filter((todo) => {
             return todo.id !== action.id
@@ -83,11 +94,17 @@ export const reducer = (state = initState, action) => {
     case TOGGLE_COMPLETED:
       target = state.data.findIndex(todo => todo.id === action.id)
       return {
+        selected: state.selected,
         data: [
           ...state.data.slice(0, target),
           Object.assign({}, state.data[target], {completed: !state.data[target].completed}),
           ...state.data.slice(target + 1)
         ]
+      }
+    case SELECT_ID:
+      return {
+        selected: action.id,
+        data:state.data
       }
     default:
       return state
