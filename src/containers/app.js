@@ -1,10 +1,11 @@
 import { filterTypes } from '../store/ui/filter'
 import { connect } from 'react-redux'
 import { actions as todoActions } from '../store/domain/todo'
-import { actions as filterActions } from '../store/ui/filter'
-import {AppFilter} from '../components/AppFilter'
+
+
 import {AppList} from '../components/AppList'
 import AppForm from '../components/AppForm'
+import AppFilterContainer from './AppFIlterContainer'
 import '../static/app.css'
 import '../static/todo.css'
 import React, { Component } from 'react'
@@ -20,18 +21,13 @@ class App extends Component {
   }
 
   render () {
-    const {addTodo, editTodo, editingTodo, removeTodo, completeTodo, setVisibleFilter, filter, todos} = this.props
+    const {addTodo, editTodo, editingTodo, removeTodo, completeTodo, filter, todos} = this.props
     return (
       <div className="app">
         {this.state.isEdit ?
           <div className="is-editing"/> : null
         }
-        <AppFilter
-          currentFilter={filter}
-          onFilterChange={filter => {setVisibleFilter(filter)}}
-          tabText={[{text: "ALL"}, {text: "COMPLETE"}, {text: "ACTIVE"}]}
-          filterTypes={[filterTypes.SHOW_ALL, filterTypes.SHOW_COMPLETE, filterTypes.SHOW_ACTIVE]}
-        />
+        <AppFilterContainer/>
         <div className="container todo-list-wrap">
           <AppList list={todos}
                    toggleCompleted={index => completeTodo(index)}
@@ -112,9 +108,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     completeTodo (index) {
       dispatch(todoActions.completeTodo(index))
-    },
-    setVisibleFilter (filterName) {
-      dispatch(filterActions.setVisibleFilter(filterName))
     }
   }
 }
