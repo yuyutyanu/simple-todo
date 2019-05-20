@@ -20,7 +20,7 @@ class App extends Component {
   }
 
   render () {
-    const {addTodo, editTodo, editingTodo, removeTodo, completeTodo, selectId, lock, unlock, app, filter, todos} = this.props
+    const {addTodo, editTodo, unlock, app, filter, todos} = this.props
     return (
       <div className="app">
         {app.isLock ?
@@ -86,21 +86,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     editTodo (index, text) {
       dispatch(todoActions.editTodo(index, text))
-    },
-    editingTodo (id) {
-      dispatch(todoActions.editingTodo(id))
-    },
-    removeTodo (id) {
-      dispatch(todoActions.removeTodo(id))
-    },
-    completeTodo (index) {
-      dispatch(todoActions.completeTodo(index))
-    },
-    selectId (id) {
-      dispatch(todoActions.selectId(id))
-    },
-    lock (){
-      dispatch(appActions.lock())
     },
     unlock(){
       dispatch(appActions.unlock())
