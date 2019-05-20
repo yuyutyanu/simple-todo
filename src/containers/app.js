@@ -2,10 +2,9 @@ import { filterTypes } from '../store/ui/filter'
 import { connect } from 'react-redux'
 import { actions as todoActions } from '../store/domain/todo'
 import { actions as appActions} from '../store/app/app'
-
-import { AppList } from '../components/AppList'
 import AppForm from '../components/AppForm'
 import AppFilterContainer from './AppFIlterContainer'
+import AppListContainer from './AppListContainer'
 import '../static/app.css'
 import '../static/todo.css'
 import React, { Component } from 'react'
@@ -13,7 +12,7 @@ import React, { Component } from 'react'
 class App extends Component {
   constructor (props) {
     super(props);
-    this.edit = React.createRef()
+    this.editForm = React.createRef()
     this.state = {
       focusId: null,
       isEdit: false
@@ -28,24 +27,7 @@ class App extends Component {
           <div className="is-editing"/> : null
         }
         <AppFilterContainer/>
-        <div className="container todo-list-wrap">
-          <AppList list={todos.data}
-                   toggleCompleted={index => completeTodo(index)}
-                   listItemDelete={id => {
-                     removeTodo(id)
-                   }}
-                   listItemEdit={id => {
-                     selectId(id)
-                     lock()
-                     process.nextTick(() => {
-                       this.edit.current.focus()
-                     })
-                     editingTodo(id)
-                   }}
-                   className="todo-list"
-          />
-        </div>
-
+        <AppListContainer editForm={this.editForm}/>
         {filter !== filterTypes.SHOW_COMPLETE ?
           <div className="container app-form">
             {!app.isLock ?
@@ -64,7 +46,7 @@ class App extends Component {
                 icon="edit_icon"
                 className="submit-btn"
                 labelText="edit todo ..."
-                ref={this.edit}
+                ref={this.editForm}
                 value={(
                   todos.data.some(todo => todo.id === todos.selected)
                   && todos.data[todos.data.findIndex(todo => todo.id === todos.selected)].text
