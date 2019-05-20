@@ -26,7 +26,7 @@ export const actions = {
       text
     }
   },
-  editingTodo (id){
+  editingTodo (id) {
     return {
       type: EDITING_TODO,
       id
@@ -36,45 +36,59 @@ export const actions = {
 
 let i = 0;
 let target;
-export const reducer = (state = [], action) => {
+
+const initState = {
+  data:[]
+}
+export const reducer = (state = initState, action) => {
   switch (action.type) {
     case ADD_TODO :
-      if (state) {
-        return [
-          ...state,
-          {id: i++, text: action.text, editing: false, completed: false}
-        ]
-      }else {
+      if (state.data) {
+        return {
+          data: [
+            ...state.data,
+            {id: i++, text: action.text, editing: false, completed: false}
+          ]
+        }
+      } else {
         return [{id: i++, text: action.text, editing: false, completed: false}]
       }
 
     case EDIT_TODO :
-      target = state.findIndex(todo => todo.id === action.id)
-      return [
-        ...state.slice(0, target),
-        Object.assign({}, state[target], {editing: false, text: action.text}),
-        ...state.slice(target + 1)
-      ]
+      target = state.data.findIndex(todo => todo.id === action.id)
+      return {
+        data: [
+          ...state.data.slice(0, target),
+          Object.assign({}, state.data[target], {editing: false, text: action.text}),
+          ...state.data.slice(target + 1)
+        ]
+      }
     case EDITING_TODO:
-      target = state.findIndex(todo => todo.id === action.id)
-      return [
-        ...state.slice(0, target),
-        Object.assign({}, state[target], {editing: true}),
-        ...state.slice(target + 1)
-      ]
+      target = state.data.findIndex(todo => todo.id === action.id)
+      return {
+        data: [
+          ...state.data.slice(0, target),
+          Object.assign({}, state.data[target], {editing: true}),
+          ...state.data.slice(target + 1)
+        ]
+      }
     case REMOVE_TODO:
-      return [
-        ...state.filter((todo) => {
-          return todo.id !== action.id
-        })
-      ]
+      return {
+        data: [
+          ...state.data.filter((todo) => {
+            return todo.id !== action.id
+          })
+        ]
+      }
     case TOGGLE_COMPLETED:
-      target = state.findIndex(todo => todo.id === action.id)
-      return [
-        ...state.slice(0, target),
-        Object.assign({}, state[target], {completed: !state[target].completed}),
-        ...state.slice(target + 1)
-      ]
+      target = state.data.findIndex(todo => todo.id === action.id)
+      return {
+        data: [
+          ...state.data.slice(0, target),
+          Object.assign({}, state.data[target], {completed: !state.data[target].completed}),
+          ...state.data.slice(target + 1)
+        ]
+      }
     default:
       return state
   }

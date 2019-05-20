@@ -2,8 +2,7 @@ import { filterTypes } from '../store/ui/filter'
 import { connect } from 'react-redux'
 import { actions as todoActions } from '../store/domain/todo'
 
-
-import {AppList} from '../components/AppList'
+import { AppList } from '../components/AppList'
 import AppForm from '../components/AppForm'
 import AppFilterContainer from './AppFIlterContainer'
 import '../static/app.css'
@@ -29,7 +28,7 @@ class App extends Component {
         }
         <AppFilterContainer/>
         <div className="container todo-list-wrap">
-          <AppList list={todos}
+          <AppList list={todos.data}
                    toggleCompleted={index => completeTodo(index)}
                    listItemDelete={id => {
                      removeTodo(id)
@@ -65,8 +64,8 @@ class App extends Component {
                 labelText="edit todo ..."
                 ref={this.edit}
                 value={(
-                  todos.some(todo => todo.id === this.state.focusId)
-                  && todos[todos.findIndex(todo => todo.id === this.state.focusId)].text
+                  todos.data.some(todo => todo.id === this.state.focusId)
+                  && todos.data[todos.data.findIndex(todo => todo.id === this.state.focusId)].text
                 ) || ""}
               />
             }
@@ -80,16 +79,18 @@ class App extends Component {
 const mapStateToProps = ({todos, filter}) => {
   return {
     filter: filter,
-    todos: todos.filter(todo => {
-      switch (filter) {
-        case filterTypes.SHOW_COMPLETE:
-          return todo.completed
-        case filterTypes.SHOW_ACTIVE:
-          return !todo.completed
-        default:
-          return true
-      }
-    })
+    todos: {
+      data: todos.data.filter(todo => {
+        switch (filter) {
+          case filterTypes.SHOW_COMPLETE:
+            return todo.completed
+          case filterTypes.SHOW_ACTIVE:
+            return !todo.completed
+          default:
+            return true
+        }
+      })
+    }
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -100,7 +101,7 @@ const mapDispatchToProps = (dispatch) => {
     editTodo (index, text) {
       dispatch(todoActions.editTodo(index, text))
     },
-    editingTodo(id){
+    editingTodo (id) {
       dispatch(todoActions.editingTodo(id))
     },
     removeTodo (id) {
