@@ -1,6 +1,7 @@
 import { filterTypes } from '../store/ui/filter'
 import { connect } from 'react-redux'
 import { actions as todoActions } from '../store/domain/todo'
+import { actions as appActions} from '../store/app/app'
 
 import { AppList } from '../components/AppList'
 import AppForm from '../components/AppForm'
@@ -20,10 +21,10 @@ class App extends Component {
   }
 
   render () {
-    const {addTodo, editTodo, editingTodo, removeTodo, completeTodo, selectId, filter, todos} = this.props
+    const {addTodo, editTodo, editingTodo, removeTodo, completeTodo, selectId, lock, unlock, app, filter, todos} = this.props
     return (
       <div className="app">
-        {this.state.isEdit ?
+        {app.isLock ?
           <div className="is-editing"/> : null
         }
         <AppFilterContainer/>
@@ -35,7 +36,7 @@ class App extends Component {
                    }}
                    listItemEdit={id => {
                      selectId(id)
-                     this.setState({isEdit: true})
+                     lock()
                      process.nextTick(() => {
                        this.edit.current.focus()
                      })
@@ -47,7 +48,7 @@ class App extends Component {
 
         {filter !== filterTypes.SHOW_COMPLETE ?
           <div className="container app-form">
-            {!this.state.isEdit ?
+            {!app.isLock ?
               < AppForm
                 onHandleClick={text => text ? addTodo(text) : null}
                 icon="add_icon"
@@ -58,7 +59,7 @@ class App extends Component {
               <AppForm
                 onHandleClick={text => {
                   editTodo(todos.selected, text)
-                  this.setState({isEdit: false})
+                  unlock()
                 }}
                 icon="edit_icon"
                 className="submit-btn"
@@ -77,9 +78,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({todos, filter}) => {
+const mapStateToProps = ({app, todos, filter}) => {
   return {
-    filter: filter,
+    app,
+    filter,
     todos: {
       selected: todos.selected,
       data: todos.data.filter(todo => {
@@ -114,6 +116,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     selectId (id) {
       dispatch(todoActions.selectId(id))
+    },
+    lock (){
+      dispatch(appActions.lock())
+    },
+    unlock(){
+      dispatch(appActions.unlock())
     }
   }
 }
