@@ -18,7 +18,7 @@ class App extends Component {
       <div className="app">
         {app.isLock ? <div className="is-editing"/> : null}
         <AppFilterContainer/>
-        <AppListContainer editForm={this.editForm}/>
+        <AppListContainer editFormRef={this.editForm}/>
         <AppFormContainer editFormRef={this.editForm}/>
       </div>
     )

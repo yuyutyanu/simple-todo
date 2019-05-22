@@ -5,7 +5,7 @@ import { actions as appActions } from '../store/app/app'
 import connect from 'react-redux/es/connect/connect'
 import { filterTypes } from '../store/ui/filter'
 
-export const AppListContainer = ({editForm, todos, completeTodo, removeTodo, selectId, lock, editingTodo}) => (
+export const AppListContainer = ({editFormRef, todos, completeTodo, removeTodo, selectId, lock, editingTodo}) => (
   <div className="container todo-list-wrap">
     <AppList list={todos.data}
              toggleCompleted={index => completeTodo(index)}
@@ -14,7 +14,7 @@ export const AppListContainer = ({editForm, todos, completeTodo, removeTodo, sel
                selectId(id)
                lock()
                process.nextTick(() => {
-                 editForm.current.focus()
+                 editFormRef.current.focus()
                })
                editingTodo(id)
              }}
