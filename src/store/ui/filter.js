@@ -1,9 +1,9 @@
 import { SET_VISIBLE_FILTER } from '../actionTypes/filter'
 
 export const filterTypes = {
-  SHOW_ALL: "SHOW_ALL",
-  SHOW_ACTIVE: "SHOW_ACTIVE",
-  SHOW_COMPLETE: "SHOW_COMPLETE"
+  ALL: "ALL",
+  ACTIVE: "ACTIVE",
+  COMPLETE: "COMPLETE"
 }
 
 export const actions = {
@@ -16,12 +16,17 @@ export const actions = {
     }else{
       return {
         type: SET_VISIBLE_FILTER,
-        filter: filterTypes.SHOW_ALL
+        filter: filterTypes.ALL
       }
     }
   }
 }
 
-export const reducer = (state = filterTypes.SHOW_ALL, action) => {
-  return action.filter
+export const reducer = (state = filterTypes.ALL, action) => {
+  switch (action.type) {
+    case SET_VISIBLE_FILTER:
+      return action.filter
+    default:
+      return state
+  }
 }

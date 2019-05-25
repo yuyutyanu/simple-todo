@@ -1,11 +1,9 @@
 import {connect} from 'react-redux'
-import { Setting } from '../components/Setting'
 import React from 'react'
 
 
-export const Settings = () => (
+const Settings = () => (
   <div>
-    <Setting/>
   </div>
 )
 

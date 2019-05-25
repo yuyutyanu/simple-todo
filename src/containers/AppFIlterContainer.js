@@ -1,16 +1,34 @@
 import React from 'react'
-import { AppFilter } from '../components/AppFilter'
 import { actions, filterTypes } from '../store/ui/filter'
 import { connect } from 'react-redux'
+import Paper from '@material-ui/core/Paper/Paper'
+import Tabs from '@material-ui/core/Tabs/Tabs'
+import Tab from '@material-ui/core/Tab/Tab'
 
-const AppFilterContainer = ({filter, setVisibleFilter}) => (
-  <AppFilter
-    currentFilter={filter}
-    onFilterChange={filter => {setVisibleFilter(filter)}}
-    tabText={[{text: "ALL"}, {text: "COMPLETE"}, {text: "ACTIVE"}]}
-    filterTypes={[filterTypes.SHOW_ALL, filterTypes.SHOW_COMPLETE, filterTypes.SHOW_ACTIVE]}
-  />
-)
+const AppFilterContainer = ({filter, setVisibleFilter}) => {
+  const tabs = [filterTypes.ALL, filterTypes.ACTIVE, filterTypes.COMPLETE]
+
+  function tabValue () {
+    const currentFilter = filter
+    return tabs.findIndex(value => currentFilter === value)
+  }
+
+  return (
+    <Paper square>
+      <Tabs
+        variant="fullWidth"
+        value={tabValue()}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={(e, value) => setVisibleFilter(tabs[value])}
+      >
+        {tabs.map((label, index) =>
+          <Tab key={index} label={label}/>
+        )}
+      </Tabs>
+    </Paper>
+  )
+}
 
 const mapStateToProps = ({filter}) => {
   return {
@@ -25,4 +43,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(AppFilterContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AppFilterContainer)

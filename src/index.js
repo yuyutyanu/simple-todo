@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDom from "react-dom"
-import App from "./containers/app"
-import { Settings } from "./containers/settings"
+import App from "./containers/App"
+import Settings from "./containers/Settings"
 import Layout from './layout/layout'
 
 import { Provider } from "react-redux"
