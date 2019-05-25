@@ -11,7 +11,7 @@ const initState = {
   }]
 }
 
-test('初期ステート時の動作テスト', () => {
+test('初期ステート', () => {
   const defaultState = {
     selected: null,
     data: []
