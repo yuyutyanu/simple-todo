@@ -20,14 +20,14 @@ export const AppListContainer = ({formRef, todos, toggleCompleted, removeTodo, s
   return (
     <div className="container todo-list-wrap">
       <List className="todo-list">
-        {todos.data.map((data, index) =>
-          <ListItem className={data.editing ? "is-editing-list-item" : ""} key={index}>
-            {data.completed ?
-              <Icon color={'secondary'} onClick={() => {removeTodo(data.id)}}>delete</Icon> :
-              <Icon color={'primary'} onClick={() => {doEditable(data.id)}}>edit</Icon>
+        {todos.data.map((todo, index) =>
+          <ListItem className={todo.editing ? "is-editing-list-item" : ""} key={index}>
+            {todo.completed ?
+              <Icon color={'secondary'} onClick={() => {removeTodo(todo.id)}}>delete</Icon> :
+              <Icon color={'primary'} onClick={() => {doEditable(todo.id)}}>edit</Icon>
             }
-            <ListItemText style={{textDecoration: data.completed ? 'line-through' : 'none'}} primary={data.text}/>
-            <div onClick={() => {toggleCompleted(data.id)}}>{data.completed ? <Icon color={'primary'}>done</Icon> :
+            <ListItemText style={{textDecoration: todo.completed ? 'line-through' : 'none'}} primary={todo.text}/>
+            <div onClick={() => {toggleCompleted(todo.id)}}>{todo.completed ? <Icon color={'primary'}>done</Icon> :
               <Icon>done</Icon>}</div>
           </ListItem>
         )}
