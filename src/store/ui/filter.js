@@ -23,10 +23,5 @@ export const actions = {
 }
 
 export const reducer = (state = filterTypes.SHOW_ALL, action) => {
-  switch (action.type) {
-    case SET_VISIBLE_FILTER:
-      return action.filter
-    default:
-      return state
-  }
+  return action.filter
 }

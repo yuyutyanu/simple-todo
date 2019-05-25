@@ -13,7 +13,7 @@ export const actions = {
       id
     }
   },
-  completeTodo (id) {
+  toggleCompleted (id) {
     return {
       type: TOGGLE_COMPLETED,
       id

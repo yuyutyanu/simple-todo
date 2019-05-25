@@ -15,10 +15,10 @@ export const actions = {
   }
 }
 
-const initialState = {
+const initState = {
   isLock: false
 }
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = initState, action) => {
   switch (action.type) {
     case LOCK:
       return {

@@ -5,10 +5,10 @@ import { actions as appActions } from '../store/app/app'
 import connect from 'react-redux/es/connect/connect'
 import { filterTypes } from '../store/ui/filter'
 
-export const AppListContainer = ({editFormRef, todos, completeTodo, removeTodo, selectId, lock, editingTodo}) => (
+export const AppListContainer = ({editFormRef, todos, toggleCompleted, removeTodo, selectId, lock, editingTodo}) => (
   <div className="container todo-list-wrap">
     <AppList list={todos.data}
-             toggleCompleted={index => completeTodo(index)}
+             toggleCompleted={index => toggleCompleted(index)}
              listItemDelete={id => {removeTodo(id)}}
              listItemEdit={id => {
                selectId(id)
@@ -47,8 +47,8 @@ const mapDispatchToProps = (dispatch) => {
     removeTodo (id) {
       dispatch(todoActions.removeTodo(id))
     },
-    completeTodo (index) {
-      dispatch(todoActions.completeTodo(index))
+    toggleCompleted (index) {
+      dispatch(todoActions.toggleCompleted(index))
     },
     selectId (id) {
       dispatch(todoActions.selectId(id))
